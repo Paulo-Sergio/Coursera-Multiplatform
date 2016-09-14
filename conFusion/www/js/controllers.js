@@ -60,60 +60,68 @@ angular.module('conFusion.controllers', [])
   };
 
   // Perform the reserve action when the user submits the reserve form
-  $scope.doReserve = function(){
+  $scope.doReserve = function() {
     console.log('Reserve Table', $scope.reservation);
 
     // Simulate a reservation delay. Remove this and replace with your reservation
     // code if using a server system
-    $timeout(function () {
+    $timeout(function() {
       $scope.closeReserve();
     }, 1000);
   };
 
 })
 
-.controller('MenuController', ['$scope', 'menuFactory', 'baseURL', function($scope, menuFactory, baseURL) {
+.controller('MenuController', ['$scope', 'menuFactory', 'favoriteFactory', 'baseURL', '$ionicListDelegate',
+  function($scope, menuFactory, favoriteFactory, baseURL, $ionicListDelegate) {
 
-  $scope.baseURL = baseURL;
-  $scope.tab = 1;
-  $scope.filtText = '';
-  $scope.showDetails = false;
-  $scope.showMenu = false;
-  $scope.message = "Loading ...";
+    $scope.baseURL = baseURL;
+    $scope.tab = 1;
+    $scope.filtText = '';
+    $scope.showDetails = false;
+    $scope.showMenu = false;
+    $scope.message = "Loading ...";
 
+    menuFactory.getDishes().query(
+      function(response) {
+        $scope.dishes = response;
+        $scope.showMenu = true;
+      },
+      function(response) {
+        $scope.message = "Error: " + response.status + " " + response.statusText;
+      });
 
-  menuFactory.getDishes().query(
-    function(response) {
-      $scope.dishes = response;
-      $scope.showMenu = true;
-    },
-    function(response) {
-      $scope.message = "Error: " + response.status + " " + response.statusText;
-    });
+    $scope.select = function(setTab) {
+      $scope.tab = setTab;
 
+      if (setTab === 2) {
+        $scope.filtText = "appetizer";
+      } else if (setTab === 3) {
+        $scope.filtText = "mains";
+      } else if (setTab === 4) {
+        $scope.filtText = "dessert";
+      } else {
+        $scope.filtText = "";
+      }
+    };
 
-  $scope.select = function(setTab) {
-    $scope.tab = setTab;
+    $scope.isSelected = function(checkTab) {
+      return ($scope.tab === checkTab);
+    };
 
-    if (setTab === 2) {
-      $scope.filtText = "appetizer";
-    } else if (setTab === 3) {
-      $scope.filtText = "mains";
-    } else if (setTab === 4) {
-      $scope.filtText = "dessert";
-    } else {
-      $scope.filtText = "";
-    }
-  };
+    $scope.toggleDetails = function() {
+      $scope.showDetails = !$scope.showDetails;
+    };
 
-  $scope.isSelected = function(checkTab) {
-    return ($scope.tab === checkTab);
-  };
+    /* add dish aos favoritos */
+    $scope.addFavorite = function(index) {
+      console.log("Index of Dish is: " + index);
 
-  $scope.toggleDetails = function() {
-    $scope.showDetails = !$scope.showDetails;
-  };
-}])
+      favoriteFactory.addFavorites(index);
+      $ionicListDelegate.closeOptionButtons();
+    };
+  }
+])
 
 .controller('ContactController', ['$scope', function($scope) {
 

@@ -35,4 +35,22 @@ angular.module('conFusion.services', ['ngResource'])
 
   return $resource(baseURL + "feedback/:id");
 
+}])
+
+.factory('favoriteFactory', ['$resource', 'baseURL', function($resource, baseURL) {
+
+  var favFac = {};
+  var favorites = [];
+
+  favFac.addFavorites = function(index) {
+    for (var i = 0; i < favorites.length; i++) {
+      if (favorites[i].id == index)
+        return;
+    }
+    favorites.push({
+      id: index
+    });
+  };
+
+  return favFac;
 }]);

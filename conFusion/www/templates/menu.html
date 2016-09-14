@@ -27,6 +27,8 @@
             <span class="badge badge-assertive">{{dish.label}}</span>
         </h2>
         <p>{{dish.description}}</p>
+        <ion-option-button ng-click="addFavorite({{dish.id}})" class="button-assertive icon ion-plus-circled">
+        </ion-option-button>
       </ion-item>
     </ion-list>
 
