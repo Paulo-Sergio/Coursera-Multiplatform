@@ -285,7 +285,7 @@ angular.module('conFusion.controllers', [])
     };
 
     $scope.deleteFavorite = function(index) {
-      favoriteFactory.deleteFavorite(index);
+      favoriteFactory.deleteFromFavorites(index);
       $scope.shouldShowDelete = false;
     };
   }
@@ -297,9 +297,8 @@ angular.module('conFusion.controllers', [])
     var out = [];
 
     for (var i = 0; i < favorites.length; i++) {
-      for (var j = 0; i < dishes.length; j++) {
+      for (var j = 0; j < dishes.length; j++) {
         if (dishes[j].id === favorites[i].id)
-        //console.log(dishes[j]);
           out.push(dishes[j]);
       }
     }
