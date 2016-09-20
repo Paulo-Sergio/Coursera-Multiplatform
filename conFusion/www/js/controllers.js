@@ -271,31 +271,33 @@ angular.module('conFusion.controllers', [])
 
 // implement the IndexController and About Controller here
 
-.controller('IndexController', ['$scope', 'menuFactory', 'corporateFactory', 'baseURL', function($scope, menuFactory, corporateFactory, baseURL) {
+.controller('IndexController', ['$scope', 'menuFactory', 'corporateFactory', 'promotionFactory', 'baseURL',
+  function($scope, menuFactory, corporateFactory, promotionFactory, baseURL) {
 
-  $scope.leader = corporateFactory.get({
-    id: 3
-  });
-  $scope.baseURL = baseURL;
-  $scope.showDish = false;
-  $scope.message = "Loading ...";
-  $scope.dish = menuFactory.getDishes().get({
+    $scope.leader = corporateFactory.get({
+      id: 3
+    });
+    $scope.baseURL = baseURL;
+    $scope.showDish = false;
+    $scope.message = "Loading ...";
+    $scope.dish = menuFactory.getDishes().get({
+        id: 0
+      })
+      .$promise.then(
+        function(response) {
+          $scope.dish = response;
+          $scope.showDish = true;
+        },
+        function(response) {
+          $scope.message = "Error: " + response.status + " " + response.statusText;
+        }
+      );
+    $scope.promotion = promotionFactory.get({
       id: 0
-    })
-    .$promise.then(
-      function(response) {
-        $scope.dish = response;
-        $scope.showDish = true;
-      },
-      function(response) {
-        $scope.message = "Error: " + response.status + " " + response.statusText;
-      }
-    );
-  $scope.promotion = menuFactory.getPromotion().get({
-    id: 0
-  });
+    });
 
-}])
+  }
+])
 
 .controller('AboutController', ['$scope', 'corporateFactory', 'baseURL', function($scope, corporateFactory, baseURL) {
 
@@ -310,7 +312,7 @@ angular.module('conFusion.controllers', [])
 
     $scope.baseURL = baseURL;
     $scope.shouldShowDelete = false;
-
+    ''
     $ionicLoading.show({
       template: '<ion-spinner></ion-spinner> Loading...'
     });
