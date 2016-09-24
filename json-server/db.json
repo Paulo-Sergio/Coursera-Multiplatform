@@ -94,7 +94,7 @@
       "image": "images/vadonut.png",
       "category": "appetizer",
       "label": "New",
-      "price": "1.99",
+      "price": 1.99,
       "description": "A quintessential ConFusion experience, is it a vada or is it a donut?",
       "comments": [
         {
@@ -126,6 +126,12 @@
           "comment": "It's your birthday, we're gonna party!",
           "author": "25 Cent",
           "date": "2011-12-02T17:57:28.556094Z"
+        },
+        {
+          "rating": 4,
+          "comment": "Testando com comentario um pouco maior para ver como vai se comportar no elemento.",
+          "author": "PAULO FRANCA",
+          "date": "2016-09-24T02:57:36.698Z"
         }
       ]
     },
